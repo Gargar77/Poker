@@ -14,7 +14,6 @@ class Deck
     SUITS =  %w[ Clubs Diamonds Hearts Spades ]
     attr_reader :cards
     def initialize
-
         @cards = get_cards
     end
 
