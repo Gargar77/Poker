@@ -7,7 +7,7 @@ describe Class do
     describe '#initialize' do
      subject(:card) {Card.new('Queen',12,'Hearts')}
 
-     it "should accept a face,number, and suit" do
+     it "should accept a face,rank, and suit" do
       card
     end
 
@@ -15,8 +15,8 @@ describe Class do
         expect(card.face).to eq('Queen')
       end
 
-      it "should set number initializer" do 
-        expect(card.num).to eq(12)
+      it "should set rank initializer" do 
+        expect(card.rank).to eq(12)
       end
 
       it "should set a suit initializer" do
@@ -33,6 +33,7 @@ describe Class do
 
         describe "#initilaize" do 
         let(:deck) {Deck.new}
+        let(:deck2) {Deck.new}
         let(:queen) {"Queen"}
         let(:jack) {"Jack"}
         let(:king) {"King"}
@@ -87,16 +88,31 @@ describe Class do
                 expect(threes.all?{ |card| suits.include?(card.suit)}).to eq(true)
             end
 
-            it "each card type should have the correct corresponng number as an integer" do
+            it "each card type should have the correct corresponding rank as an integer" do
                 cards = deck.instance_variable_get(:@cards)
                 jacks = cards.select {|card| card.face == jack}
                 queens = cards.select {|card| card.face == queen}
                 kings = cards.select {|card| card.face == king}
+                aces = cards.select {|card| card.face == ace}
+                twos = cards.select {|card| card.face == two}
 
-                expect(jacks.all?{|card| card.num == 11})
-                expect(queens.all?{|card| card.num == 12})
-                expect(kings.all?{|card| card.num == 13})
+                expect(jacks.all?{|card| card.rank == 11})
+                expect(queens.all?{|card| card.rank == 12})
+                expect(kings.all?{|card| card.rank == 13})
+                expect(aces.all?{|card| card.rank == 14})
+                expect(twos.all?{|card| card.rank == 2})
             end
+
+
+
+            it "cards must be shuffled" do 
+              #NOTE: if you refresh and the specifc error is gone, then it means the cards are shuffled
+              expect(deck.cards[0].face).to_not eq(deck2.cards[0].face)
+              expect(deck.cards[1].face).to_not eq(deck2.cards[1].face)
+              expect(deck.cards[2].face).to_not eq(deck2.cards[2].face)
+              expect(deck.cards[-1].face).to_not eq(deck2.cards[-1].face)
+            end
+
 
             
         end
