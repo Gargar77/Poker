@@ -29,16 +29,17 @@ describe Class do
     end
 
     describe Deck do
+
+
+        describe "#initilaize" do 
         let(:deck) {Deck.new}
         let(:queen) {"Queen"}
         let(:jack) {"Jack"}
-        let(:King) {"King"}
+        let(:king) {"King"}
         let(:ace) {"Ace"}
         let(:two) {"Two"}
         let(:three) {"Three"}
 
-
-        describe "#initilaize" do 
             it "should set a cards initializer" do
                 deck.cards
             end
@@ -65,7 +66,7 @@ describe Class do
 
             it "each face has exaclty one 'Clubs', 'Diamonds', 'Hearts', and 'Spades' in the deck" do
                 cards = deck.instance_variable_get(:@cards)
-                symbols = %w[ 'Clubs' 'Diamonds' 'Hearts' 'Spades']
+                symbols =  %w[ Clubs Diamonds Hearts Spades]
 
                 jacks = cards.select {|card| card.face == jack}
                 queens = cards.select {|card| card.face == queen}
@@ -74,13 +75,28 @@ describe Class do
                 twos = cards.select {|card| card.face == two}
                 threes = cards.select {|card| card.face == three}
 
-                expect(jacks.all?{ |symbol| symbols.include?(symbol)}).to eq(true)
-                expect(queens.all?{ |symbol| symbols.include?(symbol)}).to eq(true)
-                expect(kings.all?{ |symbol| symbols.include?(symbol)}).to eq(true)
-                expect(aces.all?{ |symbol| symbols.include?(symbol)}).to eq(true)
-                expect(twos.all?{ |symbol| symbols.include?(symbol)}).to eq(true)
-                expect(threes.all?{ |symbol| symbols.include?(symbol)}).to eq(true)
+      
+
+                expect(jacks.all?{ |card| symbols.include?(card.symbol)}).to eq(true)
+                expect(queens.all?{ |card| symbols.include?(card.symbol)}).to eq(true)
+                expect(kings.all?{ |card| symbols.include?(card.symbol)}).to eq(true)
+                expect(aces.all?{ |card| symbols.include?(card.symbol)}).to eq(true)
+                expect(twos.all?{ |card| symbols.include?(card.symbol)}).to eq(true)
+                expect(threes.all?{ |card| symbols.include?(card.symbol)}).to eq(true)
             end
+
+            it "each card type should have the correct corresponng number as an integer" do
+                cards = deck.instance_variable_get(:@cards)
+                jacks = cards.select {|card| card.face == jack}
+                queens = cards.select {|card| card.face == queen}
+                kings = cards.select {|card| card.face == king}
+
+                expect(jacks.all?{|card| card.num == 11})
+                expect(queens.all?{|card| card.num == 12})
+                expect(kings.all?{|card| card.num == 13})
+            end
+
+            
         end
     end
             
