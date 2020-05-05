@@ -9,7 +9,6 @@ require 'Deck'
 #--
 
 describe Hand do 
-
     describe "#initialize" do
       let(:deck) {Deck.new}
       let(:hand) {Hand.new(deck)}
@@ -17,25 +16,31 @@ describe Hand do
 
         it "takes in an existing Deck as an arg and sets it as attribute" do
             hand.deck
-            expect(hand.deck).to eq(other_hand.deck)
         end
     
         it "initialized with a random set of 5 cards from the deck" do
             hand.set
             expect(hand.set.length).to eq(5) 
         end
+
+        it "make sure there are fewer cards in the deck after a new hand instance" do 
+
+            original_length = deck.cards.length
+            expect(hand.deck.cards.length).to_not eq(original_length)
+        end
     end
 
     describe "#one_pair?" do
     #pair: two cards of the same face
-            let(:ace_spades) {Card.new('Ace',14,'Spades')} 
+            let(:two_spades) {Card.new('Two',2,'Spades')} 
             let(:six_hearts) {Card.new('Six',6,'Hearts')}
             let(:six_spades) {Card.new('Six',6,'Spades')}
             let(:queen) {Card.new('Queen',12,'Hearts')}
             let(:ace_hearts) {Card.new('Ace',14,'Hearts')}
 
-
-            let(:small_deck) {[six_hearts,six_spades,queen,ace_hearts,ace_spades]}
+            
+            let(:cards) {[six_hearts,six_spades,queen,ace_hearts,two_spades]}
+            let(:small_deck) {double("mock Deck",:cards => cards)}
             let(:hand) {Hand.new(small_deck)}
         it "Returns true if there is exactly one pair" do
              expect(hand.one_pair?).to eq(true)
@@ -51,7 +56,8 @@ describe Hand do
         let(:queen_clubs) {Card.new('Queen',12,'Clubs')}
 
     
-        let(:small_deck) {[six_hearts,six_spades,queen_clubs,queen_hearts,ace_spades]}
+        let(:cards) {[six_hearts,six_spades,queen_clubs,queen_hearts,ace_spades]}
+        let(:small_deck) {double("mock Deck",:cards => cards)}
         let(:hand) {Hand.new(small_deck)}
         
             it "returns true if there are two pairs in the set" do 
@@ -68,7 +74,8 @@ describe Hand do
         let(:queen_hearts) {Card.new('Queen',12,'Hearts')}
         let(:queen_clubs) {Card.new('Queen',12,'Clubs')}
 
-        let(:small_deck) {[six_hearts,ace_spades,queen_clubs,queen_hearts,queen_diamonds]}
+        let(:cards) {[six_hearts,ace_spades,queen_clubs,queen_hearts,queen_diamonds]}
+        let(:small_deck) {double("mock Deck",:cards => cards)}
         let(:hand) {Hand.new(small_deck)}
 
         it "returns true if there are 3 of a kind" do 
@@ -93,7 +100,8 @@ describe Hand do
         let(:jack_diamonds) {Card.new('Jack',11,'Diamonds')}
         let(:queen_spades) {Card.new('Queen',12,'Spades')}
 
-        let(:small_deck) {[eight_spades,nine_spades,ten_diamonds,jack_diamonds,queen_spades]}
+        let(:cards) {[eight_spades,nine_spades,ten_diamonds,jack_diamonds,queen_spades]}
+        let(:small_deck) {double("mock Deck",:cards => cards)}
         let(:hand) {Hand.new(small_deck)}
 
         it "returns true if the set is a straight" do 
@@ -102,6 +110,7 @@ describe Hand do
 
         it "should have at least two different suits" do
             new_deck = [ten_spades,jack_spades,eight_spades,nine_spades,queen_spades]
+            let(:small_deck) {double("mock Deck",:cards => new_deck)}
             new_hand = Hand.new(new_deck)
 
             expect(new_hand.straight?).to eq(false)
@@ -116,7 +125,8 @@ describe Hand do
         let(:nine_spades) {Card.new('Nine',9,'Spades')}
         let(:three_spades) {Card.new('Three',3,'Spades')}
 
-        let(:small_deck) {[king_spades,jack_spades,seven_spades,nine_spades,three_spades]}
+        let(:cards) {[king_spades,jack_spades,seven_spades,nine_spades,three_spades]}
+        let(:small_deck) {double("mock Deck",:cards => cards)}
         let(:hand) {Hand.new(small_deck)}
 
         it "should return true if the set is a flush" do 
@@ -131,7 +141,8 @@ describe Hand do
             queen_spades =Card.new('Queen',12,'Spades')
 
             new_deck = [ten_spades,jack_spades,eight_spades,nine_spades,queen_spades]
-            new_hand = Hand.new(new_deck)
+            let(:small_deck) {double("mock Deck",:cards => new_deck)}
+            new_hand = Hand.new(small_deck)
 
             expect(new_hand.flush?).to eq(false)
         end
@@ -146,7 +157,8 @@ describe Hand do
         let(:queen_spades) {Card.new('Queen',12,'Spades')}
 
         
-        let(:small_deck) {[ten_spades,jack_spades,eight_spades,nine_spades,queen_spades]}
+        let(:cards) {[ten_spades,jack_spades,eight_spades,nine_spades,queen_spades]}
+        let(:small_deck) {double("mock Deck",:cards => cards)}
         let(:hand) {Hand.new(small_deck)}
 
 
@@ -164,8 +176,9 @@ describe Hand do
         let(:ace_hearts) {Card.new('Ace',14,'Hearts')}
         let(:queen_spades) {Card.new('Queen',12,'Spades')}
 
-        let(:small_deck) {[queen_diamonds,queen_hearts,queen_clubs,ace_hearts,queen_spades]}
-        let(:hand) {Hand.new(small_deck)}
+        let(:cards) {[queen_diamonds,queen_hearts,queen_clubs,ace_hearts,queen_spades]}
+        let(:small_deck) {double("mock Deck",:cards => cards)}
+        let(:hand) {Hand.new(cards)}
 
         it "returns true if there are four of a kind" do 
             expect(hand.four_of_a_kind?).to eq(true)
@@ -181,8 +194,9 @@ describe Hand do
         let(:queen_hearts) {Card.new('Queen',12,'Hearts')}
         let(:queen_clubs) {Card.new('Queen',12,'Clubs')}
 
-        let(:small_deck) {[ace_hearts,ace_spades,queen_diamonds,queen_hearts,queen_clubs]}
-        let(:hand) {Hand.new(small_deck)}
+        let(:cards) {[ace_hearts,ace_spades,queen_diamonds,queen_hearts,queen_clubs]}
+        let(:small_deck) {double("mock Deck",:cards => cards)}
+        let(:hand) {Hand.new(cards)}
 
         it "returns true if the set is a full house" do 
             expect(hand.full_house?).to eq(true)
@@ -205,8 +219,10 @@ describe Hand do
 
         let(:deck1) {[king_spades,jack_spades,ten_spades,queen_spades,ace_spades]}
         let(:deck2) {[king_clubs,jack_clubs,ten_clubs,queen_clubs,ace_clubs]}
-        let(:hand1) {Hand.new(deck1)}
-        let(:hand2) {Hand.new(deck2)}
+        let(:small_deck1) {double("mock Deck",:cards => deck1)}
+        let(:small_deck2) {double("mock Deck",:cards => deck2)}
+        let(:hand1) {Hand.new(small_deck1)}
+        let(:hand2) {Hand.new(small_deck2)}
 
         it "should return true if the set is a royal flush" do
             expect(hand1.royal_flush?).to eq(true)
@@ -222,8 +238,9 @@ describe Hand do
         let(:queen_clubs) {Card.new('Queen',12,'Clubs')}
         let(:ace_clubs) {Card.new('Ace',14,'Clubs')}
 
-        let(:small_deck) {[ace_hearts,ace_spades,queen_diamonds,queen_hearts,queen_clubs]}
-        let(:hand) {Hand.new(small_deck)}
+        let(:cards) {[ace_hearts,ace_spades,queen_diamonds,queen_hearts,queen_clubs]}
+        let(:small_deck) {double("mock Deck",:cards => cards)}
+        let(:hand) {Hand.new(cards)}
 
         it "returns the highest rank in the set" do 
             expect(hand.high_card).to eq(ace_clubs)
@@ -235,7 +252,7 @@ describe Hand do
         # High Card(2-14), One pair(15), two Pair(16),Three of a kind(17)
         # Straight(18), Flush(19), Full House (20), Four of a kind(21), Straight flush(22)
         # Royal Flush(23) 
-        
+
         let(:ace_hearts) {Card.new('Ace',14,'Hearts')}
         let(:ace_spades) {Card.new('Ace',14,'Spades')}
         let(:queen_diamonds) {Card.new('Queen',12,'Diamonds')}
@@ -250,15 +267,17 @@ describe Hand do
         let(:two_hearts) {Card.new('two',2,'Hearts')}
         let(:deck_high_card) {[king_hearts,seven_diamonds.queen_diamonds,three_clubs,two_hearts]}
 
+        let(:small_deck_f) {double("mock Deck",:cards => deck_full_house)}
+        let(:small_deck_h) {double("mock Deck",:cards => deck_high_card)}
+
         it "returns an integer value equal equal to the rank of the current hand" do 
-            hand_full_house = Hand.new(deck_full_house)
-            hand_high_card = Hand.new(deck_high_card)
+            hand_full_house = Hand.new(small_deck_f)
+            hand_high_card = Hand.new(small_deck_h)
 
             expect(hand_full_house.hand_rank).to eq(20)
             expect(hand_high_card.hand_rank).to eq(13)
         end
     end
-
 
 
 end
