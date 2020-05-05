@@ -1,17 +1,17 @@
 class Card
-    attr_reader :face, :num, :symbol, :revealed
+    attr_reader :face, :num, :suit, :revealed
 
-    def  initialize(face,num,symbol)
+    def  initialize(face,num,suit)
         @face = face
         @num = num
-        @symbol = symbol
+        @suit = suit
         @revealed = false
     end 
 end
 
 class Deck
     FACES = %w[ Ace Two Three Four Five Six Seven Eight Nine Ten Jack Queen King]
-    SYMBOLS =  %w[ Clubs Diamonds Hearts Spades ]
+    SUITS =  %w[ Clubs Diamonds Hearts Spades ]
     attr_reader :cards
     def initialize
 
@@ -20,9 +20,9 @@ class Deck
 
     def get_cards
         cards_arr = []
-        SYMBOLS.each do |symbol|
+        SUITS.each do |suit|
             FACES.each_with_index do |face,num|
-                cards_arr << Card.new(face,num,symbol)
+                cards_arr << Card.new(face,num,suit)
             end
         end
          cards_arr

@@ -7,7 +7,7 @@ describe Class do
     describe '#initialize' do
      subject(:card) {Card.new('Queen',12,'Hearts')}
 
-     it "should accept a face,number, and symbol" do
+     it "should accept a face,number, and suit" do
       card
     end
 
@@ -19,8 +19,8 @@ describe Class do
         expect(card.num).to eq(12)
       end
 
-      it "should set a symbol initializer" do
-        expect(card.symbol).to eq('Hearts')
+      it "should set a suit initializer" do
+        expect(card.suit).to eq('Hearts')
       end
 
       it "should initilaize @revealed and set it to false" do
@@ -66,7 +66,7 @@ describe Class do
 
             it "each face has exaclty one 'Clubs', 'Diamonds', 'Hearts', and 'Spades' in the deck" do
                 cards = deck.instance_variable_get(:@cards)
-                symbols =  %w[ Clubs Diamonds Hearts Spades]
+                suits =  %w[ Clubs Diamonds Hearts Spades]
 
                 jacks = cards.select {|card| card.face == jack}
                 queens = cards.select {|card| card.face == queen}
@@ -77,12 +77,14 @@ describe Class do
 
       
 
-                expect(jacks.all?{ |card| symbols.include?(card.symbol)}).to eq(true)
-                expect(queens.all?{ |card| symbols.include?(card.symbol)}).to eq(true)
-                expect(kings.all?{ |card| symbols.include?(card.symbol)}).to eq(true)
-                expect(aces.all?{ |card| symbols.include?(card.symbol)}).to eq(true)
-                expect(twos.all?{ |card| symbols.include?(card.symbol)}).to eq(true)
-                expect(threes.all?{ |card| symbols.include?(card.symbol)}).to eq(true)
+
+                
+                expect(jacks.all?{ |card| suits.include?(card.suit)}).to eq(true)
+                expect(queens.all?{ |card| suits.include?(card.suit)}).to eq(true)
+                expect(kings.all?{ |card| suits.include?(card.suit)}).to eq(true)
+                expect(aces.all?{ |card| suits.include?(card.suit)}).to eq(true)
+                expect(twos.all?{ |card| suits.include?(card.suit)}).to eq(true)
+                expect(threes.all?{ |card| suits.include?(card.suit)}).to eq(true)
             end
 
             it "each card type should have the correct corresponng number as an integer" do
