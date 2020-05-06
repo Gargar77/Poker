@@ -21,6 +21,15 @@ class Hand
        @set = current_set
     end
 
+    def replenish_set
+        set_count = set.length
+        add_amount = 5 - set_count
+
+        add_amount.times do 
+            @set << deck.cards.pop
+        end
+    end
+
     def one_pair? 
         return count_pairs == 1 ? true : false
     end
@@ -83,6 +92,31 @@ class Hand
         return 16 if two_pair?
         return 15 if one_pair?
         return high_card
+    end
+
+    def rank_name
+        case hand_rank
+        when 23
+            return 'Royal flush!'
+        when 22
+            return 'Straight flush!'
+        when 21
+            return 'Four of a Kind!'
+        when 20
+            return 'Full House!'
+        when 19
+            return 'Flush!'
+        when 18
+            return 'Straight!'
+        when 17
+            return 'Three of a Kind!'
+        when 16
+            return 'Two-pair!'
+        when 15
+            return 'One-pair!'
+        else
+            return 'High card'
+        end
     end
 
     private

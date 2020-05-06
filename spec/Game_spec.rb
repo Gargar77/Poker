@@ -2,15 +2,11 @@ require 'rspec'
 require 'Game'
 
 describe Game do 
-
+    let(:game) {Game.new}
     describe "#initialize" do 
 
         it "holds a new deck" do 
             game.deck
-        end
-
-        it "holds up to 4 players" do 
-            expect(game.players.length).to be < 5
         end
 
         it "has a discard pile as an attribute" do 

@@ -9,7 +9,7 @@ describe Player do
     let(:new_deck) {Deck.new}
     let(:game) {double("main game")}
     let(:hand) {double("sample hand", :deck => new_deck)}
-    subject(:player) {Player.new("George",hand)}
+    subject(:player) {Player.new("George",new_deck)}
 
     describe "#initialize" do 
         it "sets player hand" do 
@@ -25,17 +25,17 @@ describe Player do
         end
     end
 
-    describe "#fold" do 
+    describe "#fold_hand" do 
 
         it "it sets fold value to true" do
-            player.fold 
+            player.fold_hand
             expect(player.fold).to eq(true)
         end
     end
 
-    describe "#see" do 
+    describe "#see_hand" do 
         it "renders the current cards with respective index" do
-            player.see
+            player.see_hand
         end
     end
 
@@ -60,11 +60,18 @@ describe Player do
         end
         it "returns bet value" do 
             player.bet(100)
-            expect(player.bet).to eq(100)
+            expect(player.bet(100)).to eq(100)
         end
     end
 
-    describe "#discard(index,*)" do
+    describe "valid_index?(index)?" do 
+        it "makes sure the input is a valid index" do 
+            expect(player.valid_index?(10)).to eq(false)
+            expect(player.valid_index?(3)).to eq(true)
+        end
+    end
+
+    describe "#discard(index*)" do
 
         it "can accept any number of args" do 
             player.discard(1)
@@ -80,14 +87,7 @@ describe Player do
             expect(player.hand.set[3]).to_not eq(card2)
         end
 
-        it "will return the disarded cards as an array" do 
-            card1 = player.hand.set[1]
-            card2 = player.hand.set[3] 
-
-            expect(player.discard(1,3)).to be_a(Array)
-            expect(player.discard(1,3)).to include(card1)
-            expect(player.discard(1,3)).to include(card2)
-            
-        end
+        it "will return the disarded cards as an array" 
     end
+
 end
